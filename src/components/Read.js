@@ -5,7 +5,9 @@ import { Link } from "react-router-dom";
 const Read = () => {
   const [data, setData] = useState([]);
   const [tabledark,setTabledark] =useState('');
+  
 
+  
   function getData() {
     axios
       .get("https://664b1152a300e8795d441633.mockapi.io/crudoperation")
@@ -65,12 +67,13 @@ const Read = () => {
             <th scope="col">Delete</th>
           </tr>
         </thead>
-        {data.map((eachData) => {
+        {data.map((eachData,index) => {
           return (
             <>
               <tbody>
                 <tr>
-                  <th scope="row">{eachData.id}</th>
+                  {/* <th scope="row">{eachData.id}</th> */}
+                  <th scope="row">{index+1}</th>
                   <td>{eachData.name}</td>
                   <td>{eachData.email}</td>
                   <td>{eachData.contact}</td>
