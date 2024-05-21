@@ -1,8 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 const Read = () => {
   const [data, setData] = useState([]);
+  const [tabledark,setTabledark] =useState('');
 
   function getData() {
     axios
@@ -15,7 +17,7 @@ const Read = () => {
 
   function handleDelete(id) {
     axios
-    .delete(`https://664b1152a300e8795d441633.mockapi.io/crudoperation${id}`)
+    .delete(`https://664b1152a300e8795d441633.mockapi.io/crudoperation/${id}`)
     .then(
         () => {
           getData();
@@ -24,14 +26,35 @@ const Read = () => {
     
   }
 
+  const setToLocalStorage=(id,name,email,contact)=>{
+    localStorage.setItem("id",id)
+    localStorage.setItem("name",name)
+    localStorage.setItem("email",email)
+    localStorage.setItem("contact",contact)
+
+  }
+
   useEffect(() => {
     getData();
   }, []);
 
   return (
     <>
-      <h2>Read Opertaion</h2>
-      <table class="table">
+    <div className="form-check form-switch">
+  <input className="form-check-input" type="checkbox"
+  onClick={()=>{
+    if(tabledark === 'table-dark')
+      setTabledark("");
+    else setTabledark("table-dark");
+  }} />
+</div>
+      <div className="d-flex justify-content-between m-2">
+      <h2>Read-Operaton</h2>
+      <Link to="/">
+      <button className="btn btn-success">Create</button>
+      </Link>
+      </div>
+      <table className={`table ${tabledark}`}>
         <thead>
           <tr>
             <th scope="col">#</th>
@@ -52,7 +75,13 @@ const Read = () => {
                   <td>{eachData.email}</td>
                   <td>{eachData.contact}</td>
                   <td>
-                    <button className="btn-success">Edit</button>
+                    
+                    <Link to="/update">
+                    <button className="btn-success"
+                    onClick={()=>setToLocalStorage(
+                      eachData.id,eachData.name,eachData.email,eachData.contact
+                    )}>Edit</button>
+                    </Link>
                   </td>
                   <td>
                     <button
